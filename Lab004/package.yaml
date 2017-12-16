@@ -1,8 +1,8 @@
-name:                Lab002
+name:                Lab004
 version:             0.1.0.0
-github:              clitetailor/Lab002
+github:              clitetailor/Lab004
 license:             BSD3
-author:              clitetailor
+author:              Clite Tailor
 maintainer:          ducnhatphung@gmail.com
 copyright:           (c) 2017-2018 Clite Tailor
 
@@ -17,41 +17,27 @@ synopsis:            Short description of your package
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on Github at <https://github.com/ clitetailor/Lab002#readme>
+description:         Please see the README on Github at <https://github.com/clitetailor/Lab004#readme>
 
 dependencies:
 - base >= 4.7 && < 5
-- QuickCheck
 
 library:
-  source-dirs:
-  - src
+  source-dirs: src
 
 executables:
-  fizzbuzz:
-    main:                FizzBuzz.hs
-    source-dirs:         src
+  Lab004-exe:
+    main:                Main.hs
+    source-dirs:         app
     ghc-options:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
-    - -main-is FizzBuzz.main
     dependencies:
-    - Lab002
-
-  quicksort:
-    main:                QuickSort.hs
-    source-dirs:         src
-    ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
-    - -main-is QuickSort.main
-    dependencies:
-    - Lab002
+    - Lab004
 
 tests:
-  test:
+  Lab004-test:
     main:                Spec.hs
     source-dirs:         test
     ghc-options:
@@ -59,4 +45,4 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - Lab002
+    - Lab004
