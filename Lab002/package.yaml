@@ -24,10 +24,8 @@ dependencies:
 - QuickCheck
 
 library:
-  source-dirs: src
-  exposed-modules:
-  - FizzBuzz
-  - QuickSort
+  source-dirs:
+  - src
 
 executables:
   fizzbuzz:
