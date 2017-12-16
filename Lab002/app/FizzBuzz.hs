@@ -1,10 +1,7 @@
-module Main where
-
-import Lib
+module FizzBuzz where
 
 import System.IO (hFlush, stdout)
 import Control.Monad (forM_, when)
-import Data.Function
 
 toInt :: String -> Int
 toInt str = read str

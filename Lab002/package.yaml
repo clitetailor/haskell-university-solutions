@@ -26,6 +26,17 @@ library:
   source-dirs: src
 
 executables:
+  fizzbuzz:
+    main:                FizzBuzz.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    - -main-is FizzBuzz.main
+    dependencies:
+    - Lab002
+
   quicksort:
     main:                QuickSort.hs
     source-dirs:         app
@@ -33,17 +44,7 @@ executables:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
-    dependencies:
-    - Lab002
-    
-  fizzbuzz:
-    main:                FizzBuzz.hs
-    source-dirs:         app
-    ghc-options:
-    ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
+    - -main-is QuickSort.main
     dependencies:
     - Lab002
 

@@ -1,4 +1,4 @@
-module Main where
+module QuickSort where
 
 import System.Environment (getArgs)
 import Data.List (foldl')
