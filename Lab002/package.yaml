@@ -21,14 +21,18 @@ description:         Please see the README on Github at <https://github.com/ cli
 
 dependencies:
 - base >= 4.7 && < 5
+- QuickCheck
 
 library:
   source-dirs: src
+  exposed-modules:
+  - FizzBuzz
+  - QuickSort
 
 executables:
   fizzbuzz:
     main:                FizzBuzz.hs
-    source-dirs:         app
+    source-dirs:         src
     ghc-options:
     - -threaded
     - -rtsopts
@@ -39,7 +43,7 @@ executables:
 
   quicksort:
     main:                QuickSort.hs
-    source-dirs:         app
+    source-dirs:         src
     ghc-options:
     - -threaded
     - -rtsopts
@@ -49,7 +53,7 @@ executables:
     - Lab002
 
 tests:
-  Lab002-test:
+  test:
     main:                Spec.hs
     source-dirs:         test
     ghc-options:

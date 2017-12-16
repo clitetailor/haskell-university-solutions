@@ -1,4 +1,7 @@
-module QuickSort where
+module QuickSort (
+    quicksort,
+    main
+) where
 
 import System.Environment (getArgs)
 import Data.List (foldl')
