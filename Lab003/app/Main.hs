@@ -21,16 +21,27 @@ instance Eq Fruit where
 fruits :: CheckoutSystem -> [Fruit] -> [Fruit]
 fruits sys order =
     case offer sys of   Nil -> order
-                        OfferOne -> []
-                        OfferTwo -> []
+                        OfferOne -> order ++ freeApples
+                            where
+                                freeApples = [x | x <- order, x == Apple]
+                        OfferTwo -> order
 
 
 totalCost :: CheckoutSystem -> [Fruit] -> Int
-totalCost (CheckoutSystem Nil) fruits =
-    foldl' sumUp 0 [Apple, Orange]
+totalCost sys fruits =
+    let cost = foldl' sumUp 0 [Apple, Orange]
+    in cost - discount
     where
+        sumUp :: Int -> Fruit -> Int
         sumUp accum fruit = accum + (fruitPrice fruit) * (nFruit fruit)
+
+        nFruit :: Fruit -> Int
         nFruit fruit = length [f1 | f1 <- fruits, f1 == fruit]
+
+        discount :: Int
+        discount =
+            case offer sys of   OfferTwo -> floor $ fromIntegral (nFruit Orange) * fromIntegral (fruitPrice Orange) / fromIntegral 3
+                                _ -> 0 
 
 
 checkout :: CheckoutSystem -> [Fruit] -> Info
@@ -42,8 +53,9 @@ fruitPrice :: Fruit -> Int
 fruitPrice Apple = 60
 fruitPrice Orange = 25
 
+
 main :: IO ()
 main = do
-    let sys = CheckoutSystem Nil
-    let info = checkout sys [Apple, Apple, Orange]
+    let sys = CheckoutSystem OfferTwo
+    let info = checkout sys [Apple, Orange, Orange, Apple, Orange, Orange]
     putStr $ show info
