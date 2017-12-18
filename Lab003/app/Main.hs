@@ -1,7 +1,15 @@
 module Main where
 
-import Data.List (length, foldl')
+import Data.List (length, foldl', foldl1)
 import Data.Eq (Eq)
+import Data.Char (toUpper, toLower)
+import Control.Monad (forM_)
+import System.IO (hFlush, stdout)
+import Text.Parsec (ParsecT, (<|>), parse, eof, many, sepBy)
+import Text.Parsec.Char (char, noneOf, oneOf, char)
+import Text.ParserCombinators.Parsec (GenParser, ParseError)
+import Text.Parsec.Token (symbol)
+
 
 data Fruit = Apple | Orange deriving (Show)
 
@@ -53,9 +61,62 @@ fruitPrice :: Fruit -> Int
 fruitPrice Apple = 60
 fruitPrice Orange = 25
 
+insensitiveStr str =
+    let temp = map trans str in
+    let newStr = foldl1 (>>) temp in
+    newStr
+    where
+        trans ch = char (toUpper ch) <|> char (toLower ch)
 
+
+fruitParser :: GenParser Char st [Fruit]
+fruitParser = do
+    let p0 = words `sepBy` (many (oneOf ", "))
+    chunks <- p0
+    return (foldl' (++) [] chunks)
+        where
+            words = foldl1 (<|>) (map toParser pairs)
+
+            toParser (p0, a1) = do
+                p1 <- p0
+                return a1
+
+            pairs = [ (insensitiveStr "orange", [Orange])
+                    , (insensitiveStr "apple", [Apple])
+                    , (noneOf ", ", []) ]
+
+
+parseFruits :: String -> Either ParseError [Fruit]
+parseFruits string =
+    parse fruitParser "" string
+
+
+    
 main :: IO ()
 main = do
-    let sys = CheckoutSystem OfferTwo
-    let info = checkout sys [Apple, Orange, Orange, Apple, Orange, Orange]
-    putStr $ show info
+    putStrLn "e.g. Orange, Apple, Apple, Orange, Orange"
+
+    let syss = [  CheckoutSystem Nil
+                , CheckoutSystem OfferOne
+                , CheckoutSystem OfferTwo ]
+    forM_ syss $ \sys -> do
+        showOffer sys
+        
+        putStr "> "
+
+        hFlush stdout
+        str <- getLine
+        let ret = parseFruits str
+        case ret of     Right r0 -> do
+                            let info = checkout sys r0
+                            putStrLn $ show info ++ "\n"
+                        Left r1 -> putStrLn $ show r1
+        
+        where
+            showOffer sys =
+                case offer sys of   OfferOne -> do
+                                        putStrLn "buy one, get one free on Apples"
+                                    OfferTwo -> do
+                                        putStrLn "3 for the price of 2 on Oranges"
+                                    otherwise -> do
+                                        return ()

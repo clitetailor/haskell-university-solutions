@@ -21,6 +21,7 @@ description:         Please see the README on Github at <https://github.com/clit
 
 dependencies:
 - base >= 4.7 && < 5
+- parsec
 
 library:
   source-dirs: src
@@ -33,6 +34,7 @@ executables:
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
+    - -XFlexibleContexts
     dependencies:
     - Lab003
 
