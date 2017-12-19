@@ -25,6 +25,9 @@ dependencies:
 
 library:
   source-dirs: src
+  ghc-options:
+  - -XFlexibleContexts
+
 
 executables:
   Lab003-exe:
